@@ -22,6 +22,7 @@ function LocalStorageManager() {
   this.bestScoreKey     = "bestScore";
   this.gameStateKey     = "gameState";
   this.gameUndo			= "undo";
+  this.gameSaveKey		= "save";
 
   var supported = this.localStorageSupported();
   this.storage = supported ? window.localStorage : window.fakeStorage;
@@ -54,23 +55,31 @@ LocalStorageManager.prototype.getGameState = function () {
   var stateJSON = this.storage.getItem(this.gameStateKey);
   return stateJSON ? JSON.parse(stateJSON) : null;
 };
-chung = '';
+
 LocalStorageManager.prototype.setGameState = function (gameState) {
-  var content = this.storage.getItem(this.gameStateKey);
+  var state = this.storage.getItem(this.gameStateKey);
   //this.storage.setItem(this.gameUndo, gameState);
-  //chung++;
-  this.storage.setItem(this.gameUndo, content);
+  this.storage.setItem(this.gameUndo, state);
   this.storage.setItem(this.gameStateKey, JSON.stringify(gameState));
+};
+
+LocalStorageManager.prototype.setBackupGame = function (gameState) {
+  this.storage.setItem(this.gameSaveKey, JSON.stringify(gameState));
 };
 
 LocalStorageManager.prototype.setGameUndo = function(gameState){
   this.storage.setItem(this.gameUndo, gameState);
-}
+};
 
 LocalStorageManager.prototype.getGameUndo = function(){
   var stateJSON = this.storage.getItem(this.gameUndo);
   return stateJSON ? JSON.parse(stateJSON) : null;
-}
+};
+
+LocalStorageManager.prototype.getRestoreGame = function(){
+  var stateJSON = this.storage.getItem(this.gameSaveKey);
+  return stateJSON ? JSON.parse(stateJSON) : null;
+};
 
 LocalStorageManager.prototype.clearGameState = function () {
   this.storage.removeItem(this.gameUndo);

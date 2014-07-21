@@ -496,10 +496,11 @@ hr {
   line-height: 42px;
   display: block;
   text-align: center;
+  margin-left: 5px;
 }
-.restart-button {
+.restart-button, .undo-button {
   float: left; }
-.undo-button {
+.restore-button , .backup-button {
   float: right; }
 .game-explanation {
   margin-top: 50px; }
